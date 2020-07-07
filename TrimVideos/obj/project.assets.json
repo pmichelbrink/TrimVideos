@@ -1,0 +1,156 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "MediaToolkit/1.1.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net40/MediaToolkit.dll": {}
+        },
+        "runtime": {
+          "lib/net40/MediaToolkit.dll": {}
+        }
+      },
+      "Ookii.Dialogs.Wpf/1.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Ookii.Dialogs.Wpf.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ookii.Dialogs.Wpf.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MediaToolkit/1.1.0.1": {
+      "sha512": "R3u+udQOUDBGUzx4wOHsp6yiSLMdJle7a9E7JK4/btL4w/pdXAmNHP2JMe2Fpt35kLjKNE74oNKUM1hc6RceIA==",
+      "type": "package",
+      "path": "mediatoolkit/1.1.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/readme.txt",
+        "lib/net20/MediaToolkit.dll",
+        "lib/net40/MediaToolkit.dll",
+        "mediatoolkit.1.1.0.1.nupkg.sha512",
+        "mediatoolkit.nuspec"
+      ]
+    },
+    "Ookii.Dialogs.Wpf/1.1.0": {
+      "sha512": "7VvWZe1PoZHp+MN3nb6gIwXW+DsxUREf+24O9DBDLS+gTmh/F1PYAEnd7AIKXD+Ni7JPjkRXcYAcsdcSo1G3vg==",
+      "type": "package",
+      "path": "ookii.dialogs.wpf/1.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Ookii.Dialogs.Wpf.dll",
+        "lib/net45/Ookii.Dialogs.Wpf.pdb",
+        "lib/net45/Ookii.Dialogs.Wpf.xml",
+        "ookii.dialogs.wpf.1.1.0.nupkg.sha512",
+        "ookii.dialogs.wpf.nuspec"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETCoreApp,Version=v3.1": [
+      "MediaToolkit >= 1.1.0.1",
+      "Ookii.Dialogs.Wpf >= 1.1.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\pmichelbrink\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\dev\\TrimVideos\\TrimVideos\\TrimVideos.csproj",
+      "projectName": "TrimVideos",
+      "projectPath": "C:\\dev\\TrimVideos\\TrimVideos\\TrimVideos.csproj",
+      "packagesPath": "C:\\Users\\pmichelbrink\\.nuget\\packages\\",
+      "outputPath": "C:\\dev\\TrimVideos\\TrimVideos\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\pmichelbrink\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "netcoreapp3.1"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netcoreapp3.1": {
+        "dependencies": {
+          "MediaToolkit": {
+            "target": "Package",
+            "version": "[1.1.0.1, )"
+          },
+          "Ookii.Dialogs.Wpf": {
+            "target": "Package",
+            "version": "[1.1.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          },
+          "Microsoft.WindowsDesktop.App.WPF": {
+            "privateAssets": "none"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+      }
+    }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'MediaToolkit 1.1.0.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "MediaToolkit",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Ookii.Dialogs.Wpf 1.1.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "Ookii.Dialogs.Wpf",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
+}
