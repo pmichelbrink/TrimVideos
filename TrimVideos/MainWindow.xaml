@@ -48,12 +48,55 @@
             <TextBlock Margin="2,10" Text="{Binding StatusText}"></TextBlock>
         </StackPanel>
         <StackPanel Grid.Row="4">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="10,5" FontWeight="SemiBold">Completed Files</TextBlock>
-                <TextBlock Margin="100,5,2,5" FontWeight="SemiBold">Last File Trim Time:</TextBlock>
-                <TextBlock Margin="2,5,2,5" Text="{Binding LastTimeToTrim}"></TextBlock>
-            </StackPanel>
-            <ListBox x:Name="lstOutput"  Margin="10,5" ItemsSource="{Binding CompletedVideos}"></ListBox>
+            <ListView ItemsSource="{Binding CompletedVideos}">
+                <ListView.View>
+
+                    <GridView AllowsColumnReorder="true"
+              ColumnHeaderToolTip="Employee Information">
+
+                        <GridViewColumn DisplayMemberBinding=
+                          "{Binding Path=FilePath}" 
+                      Header="Completed File" Width="250"/>
+
+                        <GridViewColumn DisplayMemberBinding=
+                          "{Binding Path=TimeToTrim}" 
+                      Width="100">
+                            <GridViewColumnHeader>Time to Trim
+                            </GridViewColumnHeader>
+                        </GridViewColumn>
+                    </GridView>
+
+                </ListView.View>
+                <!--<ListView.Resources>
+                    <GridView x:Key="one">
+                        <GridViewColumn Header="File" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FilePath}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Time to Trim" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TimeToTrim}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.Resources>-->
+                <!--<ListView.Style>
+                    <Style TargetType="ListView">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ViewType}" Value="1">
+                                <Setter Property="View" Value="{StaticResource one}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="View" Value="{StaticResource one}" />
+                    </Style>
+                </ListView.Style>-->
+            </ListView>
+            <!--<ListBox x:Name="lstOutput"  Margin="10,5" ItemsSource="{Binding CompletedVideos}"></ListBox>-->
         </StackPanel>
     </Grid>
 </Window>

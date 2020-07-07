@@ -15,6 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using TrimVideos.Models;
 
 namespace TrimVideos
 {
@@ -24,12 +25,11 @@ namespace TrimVideos
         public string OutputFolderPath { get; set; }
         public double TrimBeginningSeconds { get; set; }
         public double TrimEndSeconds { get; set; }
-        public string LastTimeToTrim { get; set; }
         public string StatusText { get; set; } = "Idle";
         public bool IsProcessing { get; set; }
         private CancellationTokenSource cts;
 
-        public ObservableCollection<string> CompletedVideos { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<CompletedFiles> CompletedVideos { get; set; } = new ObservableCollection<CompletedFiles>();
 
         private ICommand _browseSourceCommand;
         public ICommand BrowseSourceCommand
@@ -134,10 +134,8 @@ namespace TrimVideos
 
                             App.Current.Dispatcher.Invoke(() =>
                             {
-                                LastTimeToTrim = DateTime.Now.Subtract(start).ToString().Substring(0, 8);
-                                RaisePropertyChanged(nameof(LastTimeToTrim));
-
-                                CompletedVideos.Add(file);
+                                string timeToTrim = DateTime.Now.Subtract(start).ToString().Substring(0, 8);
+                                CompletedVideos.Add(new CompletedFiles() { FilePath = file, TimeToTrim = timeToTrim });
                                 RaisePropertyChanged(nameof(CompletedVideos));
                             });
                         }
@@ -148,7 +146,7 @@ namespace TrimVideos
                     //Canceling kills the ffmpeg process which causes the MediaToolkit to thrown an exception
                     if (!cts.Token.IsCancellationRequested)
                     {
-                        MessageBox.Show("Trim Videos", ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(ex.Message, "Trim Videos", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 finally
