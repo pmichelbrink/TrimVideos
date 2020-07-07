@@ -6,11 +6,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace TrimVideos
@@ -22,8 +25,8 @@ namespace TrimVideos
         public double TrimBeginningSeconds { get; set; }
         public double TrimEndSeconds { get; set; }
         public string LastTimeToTrim { get; set; }
-        public string ButtonText { get; set; } = "Start";
-        public bool IsIdle { get; set; } = true;
+        public string StatusText { get; set; } = "Idle";
+        public bool IsProcessing { get; set; }
         private CancellationTokenSource cts;
 
         public ObservableCollection<string> CompletedVideos { get; set; } = new ObservableCollection<string>();
@@ -49,7 +52,15 @@ namespace TrimVideos
         {
             get
             {
-                return _startCommand ?? (_startCommand = new CommandHandler(() => StartProcessing(), _canExecute));
+                return _startCommand ?? (_startCommand = new CommandHandler(() => StartProcessing(), !IsProcessing));
+            }
+        }
+        private ICommand _cancelCommand;
+        public ICommand CancelCommand
+        {
+            get
+            {
+                return _cancelCommand ?? (_cancelCommand = new CommandHandler(() => CancelProcessing(), true));
             }
         }
         private bool _canExecute = true;
@@ -82,24 +93,33 @@ namespace TrimVideos
         }
         private void StartProcessing()
         {
-            try
+            Task.Run(() =>
             {
-                Task.Run(() =>
+                try
                 {
+                    cts = new CancellationTokenSource();
+
                     App.Current.Dispatcher.Invoke(() =>
                     {
-                        IsIdle = false;
-                        RaisePropertyChanged(nameof(IsIdle));
+                        IsProcessing = true;
+                        RaisePropertyChanged(nameof(IsProcessing));
+                        StatusText = "Processing";
+                        RaisePropertyChanged(nameof(StatusText));
                         CompletedVideos.Clear();
                     });
 
                     foreach (string file in Directory.GetFiles(SourceFolderPath, "*.*", SearchOption.AllDirectories))
                     {
                         if (cts.Token.IsCancellationRequested)
-                            return;
+                            break;
 
                         var inputFile = new MediaFile { Filename = file };
-                        var outputFile = new MediaFile { Filename = Path.Combine(OutputFolderPath, Path.GetFileName(file)) };
+                        string outputFilePath = Path.Combine(OutputFolderPath, Path.GetFileName(file));
+
+                        if (File.Exists(outputFilePath))
+                            File.Delete(outputFilePath);
+
+                        var outputFile = new MediaFile { Filename = outputFilePath };
 
                         using (var engine = new Engine())
                         {
@@ -122,14 +142,33 @@ namespace TrimVideos
                             });
                         }
                     }
-                });
-            }
-            finally
-            {
-                IsIdle = true;
-                RaisePropertyChanged(nameof(IsIdle));
-            }
+                }
+                catch (Exception ex)
+                {
+                    //Canceling kills the ffmpeg process which causes the MediaToolkit to thrown an exception
+                    if (!cts.Token.IsCancellationRequested)
+                    {
+                        MessageBox.Show("Trim Videos", ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                finally
+                {
+                    IsProcessing = false;
+                    RaisePropertyChanged(nameof(IsProcessing));
+                    StatusText = "Idle";
+                    RaisePropertyChanged(nameof(StatusText));
+                }
+            });
         }       
+        private void CancelProcessing()
+        {
+            cts?.Cancel();
+            StatusText = "Canceling";
+            RaisePropertyChanged(nameof(StatusText));
+
+            foreach (var process in Process.GetProcesses().Where(p=>p.ProcessName.StartsWith("ffmpeg")).ToList())
+                process.Kill();
+        }
     }
 
     public class CommandHandler : ICommand
