@@ -117,7 +117,7 @@ namespace TrimVideos
                         string outputFilePath = Path.Combine(OutputFolderPath, Path.GetFileName(file));
 
                         if (File.Exists(outputFilePath))
-                            File.Delete(outputFilePath);
+                            continue;
 
                         var outputFile = new MediaFile { Filename = outputFilePath };
 
@@ -145,9 +145,7 @@ namespace TrimVideos
                 {
                     //Canceling kills the ffmpeg process which causes the MediaToolkit to thrown an exception
                     if (!cts.Token.IsCancellationRequested)
-                    {
                         MessageBox.Show(ex.Message, "Trim Videos", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
                 }
                 finally
                 {
