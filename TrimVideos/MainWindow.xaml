@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TrimVideos"   
         xmlns:conv="clr-namespace:TrimVideos.Converters"
         mc:Ignorable="d"
-        Title="Trim Videos" Height="450" Width="800">
+        Title="Trim Videos" Height="450" Width="500">
     <Window.DataContext>
         <local:TrimVideosViewModel></local:TrimVideosViewModel>
     </Window.DataContext>
@@ -19,84 +19,68 @@
             <RowDefinition Height="AUTO"></RowDefinition>
             <RowDefinition Height="AUTO"></RowDefinition>
             <RowDefinition Height="AUTO"></RowDefinition>
-            <RowDefinition Height="AUTO"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Margin="10">
+        <Grid Margin="5,10,10,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="AUTO"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="AUTO"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
             <TextBlock Margin="5">Source Path:</TextBlock>
-            <TextBox Margin="5" MinWidth="200" Text="{Binding SourceFolderPath}"></TextBox>
-            <Button VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="3,0" Command="{Binding BrowseSourceCommand}" >...</Button>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
+            <TextBox Grid.Column="1" Margin="5" Text="{Binding SourceFolderPath}"></TextBox>
+            <Button Grid.Column="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="3,0" Command="{Binding BrowseSourceCommand}" >...</Button>
+        </Grid>
+        <Grid Grid.Row="1" Margin="5,5,10,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="AUTO"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="AUTO"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
             <TextBlock Margin="5">Output Path:</TextBlock>
-            <TextBox Margin="5" MinWidth="200" Text="{Binding OutputFolderPath}"></TextBox>
-            <Button VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="3,0" Command="{Binding BrowseOutputCommand}" >...</Button>
-        </StackPanel>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
+            <TextBox Grid.Column="1" Margin="5" Text="{Binding OutputFolderPath}"></TextBox>
+            <Button Grid.Column="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="3,0" Command="{Binding BrowseOutputCommand}" >...</Button>
+        </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5,5,10,5">
             <TextBlock Margin="5">Trim Beginning:</TextBlock>
-            <TextBox Margin="1,5" Text="{Binding TrimBeginningSeconds}" MinWidth="20"></TextBox>
-            <TextBlock Margin="1,5">sec</TextBlock>
-            <Separator Width="1" BorderThickness="1"></Separator>
-            <TextBlock Margin="10,5,5,5">Trim End:</TextBlock>
-            <TextBox Margin="1,5" Text="{Binding TrimEndSeconds}" MinWidth="20"></TextBox>
+            <TextBox Margin="1,5" Text="{Binding TrimBeginningSeconds}" MinWidth="15"></TextBox>
+            <TextBlock Margin="1,5,5,5">sec</TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+            </StackPanel>
+            <TextBlock Margin="5">Trim End:</TextBlock>
+            <TextBox Margin="1,5" Text="{Binding TrimEndSeconds}" MinWidth="15"></TextBox>
             <TextBlock Margin="1,5">sec</TextBlock>
         </StackPanel>
-        <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <Button Width="100" HorizontalAlignment="Left" Margin="10" Command="{Binding StartCommand}" Content="Start" IsEnabled="{Binding IsProcessing, Converter={StaticResource inverseBool}}"></Button>
-            <Button Width="100" HorizontalAlignment="Left" Margin="10" Command="{Binding CancelCommand}" Content="Cancel" IsEnabled="{Binding IsProcessing}"></Button>
-            <TextBlock Margin="10" FontWeight="SemiBold">Status:</TextBlock>
-            <TextBlock Margin="2,10" Text="{Binding StatusText}"></TextBlock>
-        </StackPanel>
-        <StackPanel Grid.Row="4">
-            <ListView ItemsSource="{Binding CompletedVideos}">
+        <Grid Grid.Row="3" Margin="5,5,10,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="AUTO"></ColumnDefinition>
+                <ColumnDefinition Width="AUTO"></ColumnDefinition>
+                <ColumnDefinition Width="AUTO"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Width="100" HorizontalAlignment="Left" Margin="5" Command="{Binding StartCommand}" Content="Start" IsEnabled="{Binding IsProcessing, Converter={StaticResource inverseBool}}"></Button>
+            <Button Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="5" Command="{Binding CancelCommand}" Content="Cancel" IsEnabled="{Binding IsProcessing}"></Button>
+            <TextBlock Grid.Column="2" Margin="5" FontWeight="SemiBold">Status:</TextBlock>
+            <TextBlock Grid.Column="3" Margin="1,5" Text="{Binding StatusText}" ToolTip="{Binding StatusText}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"></TextBlock>
+        </Grid>
+        <Grid Grid.Row="4" Margin="10,5,10,10">
+            <ListView ItemsSource="{Binding CompletedVideos}"
+                      ScrollViewer.CanContentScroll="False">
                 <ListView.View>
-
                     <GridView AllowsColumnReorder="true"
-              ColumnHeaderToolTip="Employee Information">
+                              ColumnHeaderToolTip="Employee Information">
 
-                        <GridViewColumn DisplayMemberBinding=
-                          "{Binding Path=FilePath}" 
-                      Header="Completed File" Width="250"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=FilePath}" 
+                                        Header="Completed File" 
+                                        Width="250"/>
 
-                        <GridViewColumn DisplayMemberBinding=
-                          "{Binding Path=TimeToTrim}" 
-                      Width="100">
-                            <GridViewColumnHeader>Time to Trim
-                            </GridViewColumnHeader>
-                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=TimeToTrim}" 
+                                        Width="100"
+                                        Header="Time to Trim"/>
                     </GridView>
-
                 </ListView.View>
-                <!--<ListView.Resources>
-                    <GridView x:Key="one">
-                        <GridViewColumn Header="File" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding FilePath}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="Time to Trim" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding TimeToTrim}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.Resources>-->
-                <!--<ListView.Style>
-                    <Style TargetType="ListView">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ViewType}" Value="1">
-                                <Setter Property="View" Value="{StaticResource one}" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                        <Setter Property="View" Value="{StaticResource one}" />
-                    </Style>
-                </ListView.Style>-->
             </ListView>
-            <!--<ListBox x:Name="lstOutput"  Margin="10,5" ItemsSource="{Binding CompletedVideos}"></ListBox>-->
-        </StackPanel>
+        </Grid>
     </Grid>
 </Window>

@@ -99,15 +99,6 @@ namespace TrimVideos
                 {
                     cts = new CancellationTokenSource();
 
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        IsProcessing = true;
-                        RaisePropertyChanged(nameof(IsProcessing));
-                        StatusText = "Processing";
-                        RaisePropertyChanged(nameof(StatusText));
-                        CompletedVideos.Clear();
-                    });
-
                     foreach (string file in Directory.GetFiles(SourceFolderPath, "*.*", SearchOption.AllDirectories))
                     {
                         if (cts.Token.IsCancellationRequested)
@@ -120,6 +111,15 @@ namespace TrimVideos
                             continue;
 
                         var outputFile = new MediaFile { Filename = outputFilePath };
+
+                        App.Current.Dispatcher.Invoke(() =>
+                        {
+                            IsProcessing = true;
+                            RaisePropertyChanged(nameof(IsProcessing));
+                            StatusText = $"Processing {Path.GetFileName(file)}";
+                            RaisePropertyChanged(nameof(StatusText));
+                            CompletedVideos.Clear();
+                        });
 
                         using (var engine = new Engine())
                         {
@@ -136,7 +136,6 @@ namespace TrimVideos
                             {
                                 string timeToTrim = DateTime.Now.Subtract(start).ToString().Substring(0, 8);
                                 CompletedVideos.Add(new CompletedFiles() { FilePath = file, TimeToTrim = timeToTrim });
-                                RaisePropertyChanged(nameof(CompletedVideos));
                             });
                         }
                     }
