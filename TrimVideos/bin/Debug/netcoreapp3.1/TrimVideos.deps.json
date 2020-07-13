@@ -1,0 +1,57 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "TrimVideos/1.0.0": {
+        "dependencies": {
+          "MediaToolkit": "1.1.0.1",
+          "Ookii.Dialogs.Wpf": "1.1.0"
+        },
+        "runtime": {
+          "TrimVideos.dll": {}
+        }
+      },
+      "MediaToolkit/1.1.0.1": {
+        "runtime": {
+          "lib/net40/MediaToolkit.dll": {
+            "assemblyVersion": "1.1.0.1",
+            "fileVersion": "1.1.0.1"
+          }
+        }
+      },
+      "Ookii.Dialogs.Wpf/1.1.0": {
+        "runtime": {
+          "lib/net45/Ookii.Dialogs.Wpf.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TrimVideos/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MediaToolkit/1.1.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-R3u+udQOUDBGUzx4wOHsp6yiSLMdJle7a9E7JK4/btL4w/pdXAmNHP2JMe2Fpt35kLjKNE74oNKUM1hc6RceIA==",
+      "path": "mediatoolkit/1.1.0.1",
+      "hashPath": "mediatoolkit.1.1.0.1.nupkg.sha512"
+    },
+    "Ookii.Dialogs.Wpf/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7VvWZe1PoZHp+MN3nb6gIwXW+DsxUREf+24O9DBDLS+gTmh/F1PYAEnd7AIKXD+Ni7JPjkRXcYAcsdcSo1G3vg==",
+      "path": "ookii.dialogs.wpf/1.1.0",
+      "hashPath": "ookii.dialogs.wpf.1.1.0.nupkg.sha512"
+    }
+  }
+}

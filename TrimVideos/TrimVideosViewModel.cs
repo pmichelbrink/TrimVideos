@@ -27,6 +27,14 @@ namespace TrimVideos
         public double TrimEndSeconds { get; set; }
         public string StatusText { get; set; } = "Idle";
         public bool IsProcessing { get; set; }
+        private static string[] videoExtensions = {
+            ".MKV", ".MP4", ".AVI", ".WMV", ".MOV", ".FLV"
+        };
+
+        static bool IsVideoFile(string path)
+        {
+            return -1 != Array.IndexOf(videoExtensions, Path.GetExtension(path).ToUpperInvariant());
+        }
         private CancellationTokenSource cts;
 
         public ObservableCollection<CompletedFiles> CompletedVideos { get; set; } = new ObservableCollection<CompletedFiles>();
@@ -93,6 +101,8 @@ namespace TrimVideos
         }
         private void StartProcessing()
         {
+            CompletedVideos?.Clear();
+
             Task.Run(() =>
             {
                 try
@@ -107,7 +117,7 @@ namespace TrimVideos
                         var inputFile = new MediaFile { Filename = file };
                         string outputFilePath = Path.Combine(OutputFolderPath, Path.GetFileName(file));
 
-                        if (File.Exists(outputFilePath))
+                        if (!IsVideoFile(file) || File.Exists(outputFilePath))
                             continue;
 
                         var outputFile = new MediaFile { Filename = outputFilePath };
@@ -118,7 +128,6 @@ namespace TrimVideos
                             RaisePropertyChanged(nameof(IsProcessing));
                             StatusText = $"Processing {Path.GetFileName(file)}";
                             RaisePropertyChanged(nameof(StatusText));
-                            CompletedVideos.Clear();
                         });
 
                         using (var engine = new Engine())
