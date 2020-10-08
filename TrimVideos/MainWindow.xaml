@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TrimVideos"   
         xmlns:conv="clr-namespace:TrimVideos.Converters"
         mc:Ignorable="d"
-        Title="Trim Videos" Height="450" Width="500">
+        Title="Trim Videos" Height="450" Width="650">
     <Window.DataContext>
         <local:TrimVideosViewModel></local:TrimVideosViewModel>
     </Window.DataContext>
@@ -51,6 +51,11 @@
             <TextBlock Margin="5">Trim End:</TextBlock>
             <TextBox Margin="1,5" Text="{Binding TrimEndSeconds}" MinWidth="15"></TextBox>
             <TextBlock Margin="1,5">sec</TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+            </StackPanel>
+            <TextBlock Margin="5">Video File Extensions:</TextBlock>
+            <TextBox Margin="1,5" Text="{Binding VideoExtensionsString}" MinWidth="20" MaxWidth="225" Padding="3,0" TextWrapping="WrapWithOverflow"></TextBox>
         </StackPanel>
         <Grid Grid.Row="3" Margin="5,5,10,5">
             <Grid.ColumnDefinitions>

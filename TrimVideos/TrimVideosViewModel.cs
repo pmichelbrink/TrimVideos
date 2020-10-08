@@ -27,13 +27,24 @@ namespace TrimVideos
         public double TrimEndSeconds { get; set; }
         public string StatusText { get; set; } = "Idle";
         public bool IsProcessing { get; set; }
-        private static string[] videoExtensions = {
+        public static string[] VideoExtensions = {
             ".MKV", ".MP4", ".AVI", ".WMV", ".MOV", ".FLV"
         };
 
+        public string VideoExtensionsString
+        {
+            get
+            {
+                return string.Join(',', VideoExtensions);
+            }
+            set
+            {
+                VideoExtensions = value.ToUpperInvariant().Split(',');
+            }
+        }
         static bool IsVideoFile(string path)
         {
-            return -1 != Array.IndexOf(videoExtensions, Path.GetExtension(path).ToUpperInvariant());
+            return -1 != Array.IndexOf(VideoExtensions, Path.GetExtension(path).ToUpperInvariant());
         }
         private CancellationTokenSource cts;
 
@@ -98,6 +109,7 @@ namespace TrimVideos
         public TrimVideosViewModel()
         {
             cts = new CancellationTokenSource();
+            RaisePropertyChanged(nameof(VideoExtensionsString));
         }
         private void StartProcessing()
         {
